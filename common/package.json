@@ -1,0 +1,10 @@
+{
+  "name": "@mlbb_play/common",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "dependencies": {
+    "mongoose": "^8.5.0"
+  }
+}

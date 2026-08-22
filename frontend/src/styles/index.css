@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#0a0a0f] text-white min-h-screen;
+    background-image:
+      radial-gradient(ellipse at top, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+  }
+}
+
+@layer components {
+  .cyber-card {
+    @apply bg-[#0f0f1a]/80 backdrop-blur-xl border border-cyber-purple/30 rounded-xl;
+    box-shadow:
+      0 0 20px rgba(139, 92, 246, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .cyber-button {
+    @apply px-6 py-3 font-semibold rounded-lg transition-all duration-300;
+    @apply bg-gradient-to-r from-cyber-purple to-cyber-blue;
+    @apply hover:shadow-[0_0_30px_rgba(139,92,246,0.5)] hover:scale-105;
+    @apply active:scale-95;
+  }
+
+  .cyber-button-secondary {
+    @apply px-6 py-3 font-semibold rounded-lg transition-all duration-300;
+    @apply bg-[#1a1a2e] border border-cyber-purple/50 text-cyber-purple;
+    @apply hover:bg-cyber-purple/20 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)];
+  }
+
+  .cyber-input {
+    @apply w-full px-4 py-3 bg-[#0f0f1a] border border-cyber-purple/30 rounded-lg;
+    @apply text-white placeholder-gray-500 focus:outline-none focus:border-cyber-purple;
+    @apply focus:shadow-[0_0_20px_rgba(139,92,246,0.3)];
+    transition: all 0.3s ease;
+  }
+
+  .rank-badge {
+    @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
+  }
+
+  .neon-text {
+    @apply text-transparent bg-clip-text;
+    text-shadow: 0 0 20px currentColor;
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .grid-bg {
+    background-size: 40px 40px;
+    background-image:
+      linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #8B5CF6 0%, #06B6D4 50%, #EC4899 100%);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(139, 92, 246, 0.3);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.5), 0 0 40px rgba(6, 182, 212, 0.3);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.5), 0 0 40px rgba(236, 72, 153, 0.3);
+  }
+}
