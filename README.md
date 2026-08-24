@@ -53,11 +53,25 @@ Frontend-ийн Tailwind токен, өнгө, глассморфизм клас
 
 ## Дараагийн алхам
 
-1. `Matchmaking.tsx` доторх demo timer-ийг бодит Socket.io холболтоор
-   солих (`join_queue`, `MATCH_FOUND`, `match_accept`/`match_decline`,
-   `LOBBY_READY` events нь `matchmaking-service`-д бэлэн байгаа)
-2. `auth-service` нэмж, `identify` socket event-д JWT баталгаажуулалт
-   оруулах (одоогоор client-ийн өгсөн userId-д итгэж байгаа — Phase 2)
-3. Match тоглогдсоны дараа `/api/v1/mmr/calculate`-г дуудах бодит
+1. `auth-service` нэмж, `identify` socket event-д JWT баталгаажуулалт
+   оруулах (одоогоор client-ийн өгсөн userId-д итгэж байгаа), мөн
+   `join_queue`-д ирж буй ELO-г client-аас биш DB-ээс уншиж эхлэх
+   (одоогийн Phase 1-ийн зохион мэдэгдсэн хязгаарлалт)
+2. Match тоглогдсоны дараа `/api/v1/mmr/calculate`-г дуудах бодит
    эх сурвалж (тоглолтын үр дүн мэдээлэх систем) нэмэх — Phase 4-ийн
    Dispute/verification системтэй холбогдоно
+3. Pick/Ban lobby (Phase 2) — `LOBBY_READY`-ийн дараах алхам
+
+## Frontend-ийг matchmaking-service-тэй хамт ажиллуулж туршиж үзэх
+
+```bash
+docker-compose up -d          # MongoDB + Redis
+npm run dev:matchmaking       # :3002 — эхлээд эхэлсэн байх ёстой
+npm run dev:frontend          # :5173
+```
+
+Хөгжүүлэлтийн үед 10 бодит хэрэглэгч цуглуулах шаардлагагүй —
+"Тоглолт хайх" дараад **"9 бот нэмэх"** товч дээр дарахад бүтэн
+матч (5v5, тэнцвэртэй ELO-той) шууд олдоно. Энэ товч зөвхөн dev
+орчинд идэвхтэй (`NODE_ENV !== "production"`), диплом хамгаалалт дээр
+амьд демо хийхэд зориулагдсан.

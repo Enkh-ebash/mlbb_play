@@ -31,6 +31,10 @@ export function registerSocketHandlers(io: Server): void {
     socket.on(
       "join_queue",
       async ({ userId, region, elo }: { userId: string; region: string; elo: number }) => {
+        // TODO(Phase 2): once auth-service exists, look up elo
+        // server-side from the authenticated user's record instead
+        // of trusting the client-supplied value — trusting the
+        // client here is a known simplification for the Phase 1 demo.
         await joinQueue(userId, region, elo);
         socket.emit("queue_joined", { region, elo });
       }
@@ -40,6 +44,19 @@ export function registerSocketHandlers(io: Server): void {
       await leaveQueue(userId, region);
       socket.emit("queue_left");
     });
+
+    // DEV/DEMO ONLY — fills the queue with 9 fake bot players near the
+    // caller's ELO so the full matchmaking flow can be demoed solo
+    // (e.g. for a thesis defense) without needing 9 other real
+    // testers online at once. Gate or remove before any real deploy.
+    if (process.env.NODE_ENV !== "production") {
+      socket.on("dev_seed_bots", async ({ region, elo }: { region: string; elo: number }) => {
+        for (let i = 0; i < 9; i++) {
+          const botElo = elo + Math.floor(Math.random() * 80 - 40);
+          await joinQueue(`bot_${Date.now()}_${i}`, region, botElo);
+        }
+      });
+    }
 
     socket.on("match_accept", async ({ matchId, userId }: { matchId: string; userId: string }) => {
       await handleAccept(io, matchId, userId);
